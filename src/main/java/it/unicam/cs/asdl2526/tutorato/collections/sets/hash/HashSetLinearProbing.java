@@ -86,7 +86,7 @@ public class HashSetLinearProbing<E> implements Set<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return Collections.emptyIterator();
+        return new HashSetIterator();
     }
 
     /**
@@ -106,6 +106,31 @@ public class HashSetLinearProbing<E> implements Set<E> {
     @Override public boolean retainAll(Collection<?> c) { throw new UnsupportedOperationException(); }
     @Override public Object[] toArray() { throw new UnsupportedOperationException(); }
     @Override public <T> T[] toArray(T[] a) { throw new UnsupportedOperationException(); }
+
+    /**
+     * Iteratore per l'insieme basato su tabella di hash con probing lineare.
+     */
+    protected class HashSetIterator implements Iterator<E> {
+        /**
+         * Controlla se ci sono altri elementi nell'iteratore.
+         * @return {@code true} se ci sono altri elementi, {@code false} altrimenti oppure se sono state fatte modifiche
+         */
+        @Override
+        public boolean hasNext() {
+            return false;
+        }
+
+        /**
+         * Restituisce il prossimo elemento dell'iteratore.
+         * @return il prossimo elemento dell'iteratore
+         * @throws NoSuchElementException se non ci sono più elementi da iterare.
+         * @throws IllegalStateException se sono avvenute modidiche alla collezione dopo la creazione dell'iteratore.
+         */
+        @Override
+        public E next() {
+            return null;
+        }
+    }
 
     /**
      * Nodo della tabella di hash con linear probing. Il nodo consente di marcare un elemento come

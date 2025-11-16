@@ -1,13 +1,21 @@
 package it.unicam.cs.asdl2526.tutorato.collections.sets.hash;
 
+import it.unicam.cs.asdl2526.tutorato.collections.sets.SetTest;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class HashSetLinearProbingTest {
+public class HashSetLinearProbingTest extends SetTest {
+
+    @Override
+    public <E extends Comparable<E>> Set<E> createSet() {
+        return new HashSetLinearProbing<>();
+    }
 
     /**
      * Classe con una funzione di hash pessima che causa molte collisioni
@@ -182,5 +190,22 @@ public class HashSetLinearProbingTest {
         assertEquals(1, set.size());
         set.remove(new TerribleHash(2));
         assertEquals(0, set.size());
+    }
+
+    @Test
+    public void tesIterator() {
+        Set<Integer> set = new HashSetLinearProbing<>();
+        assertSame(HashSetLinearProbing.HashSetIterator.class, set.iterator().getClass());
+
+        set.add(1);
+        set.add(2);
+
+        Iterator<Integer> iterator = set.iterator();
+        assertTrue(iterator.hasNext());
+        Integer first = iterator.next();
+        assertTrue(first == 1 || first == 2);
+        set.add(3);
+        assertFalse(iterator.hasNext());
+        assertThrows(IllegalStateException.class, iterator::next);
     }
 }
