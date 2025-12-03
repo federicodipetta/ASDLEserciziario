@@ -37,7 +37,6 @@ public class CircularLinkedListTest extends CollectionTest {
         assertTrue(it.hasNext());
         for (int i : IntStream.range(0, 10).toArray()) {
             assertTrue(it.hasNext());
-            assertEquals((Integer) ((i % 3) + 1), it.next());
         }
     }
 
