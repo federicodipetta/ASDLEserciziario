@@ -1,5 +1,9 @@
 package it.unicam.cs.asdl2526.tutorato.collections.sets.tree;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AVLTest {
@@ -25,32 +29,25 @@ public class AVLTest {
     }
 
     @Test
-    void dfsReturnsCorrectOrder() {
+    void inOrderVisitReturnsCorrectOrder() {
         AVL tree = new AVL();
         tree.add(15);
         tree.add(10);
         tree.add(20);
         tree.add(5);
         tree.add(12);
-        assertArrayEquals(new int[]{15, 10, 5, 12, 20}, tree.DFS());
+        assertEquals(Arrays.asList(5, 10, 12, 15, 20), tree.InOrderVisit());
     }
 
     @Test
-    void bfsReturnsCorrectOrder() {
+    void postOrderVisitReturnsCorrectOrder() {
         AVL tree = new AVL();
         tree.add(15);
         tree.add(10);
         tree.add(20);
         tree.add(5);
         tree.add(12);
-        assertArrayEquals(new int[]{15, 10, 20, 5, 12}, tree.BFS());
-    }
-
-    @Test
-    void emptyTreeReturnsEmptyDFSAndBFS() {
-        AVL tree = new AVL();
-        assertArrayEquals(new int[]{}, tree.DFS());
-        assertArrayEquals(new int[]{}, tree.BFS());
+        assertEquals(Arrays.asList(5, 12, 10, 20, 15), tree.postOrder());
     }
 
     @Test

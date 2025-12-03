@@ -1,5 +1,7 @@
 package it.unicam.cs.asdl2526.tutorato.collections.sets.tree;
 
+import java.util.List;
+
 /**
  * Questa classe rappresenta un albero AVL
  */
@@ -44,7 +46,20 @@ public class AVL {
     protected AVLNode root;
 
     /**
-     * Aggiunge un valore all'albero AVL
+     * Aggiunge un valore all'albero AVL.
+     * Come tutte le aggiunte in un AVL, deve mantenere l'albero bilanciato. Questo
+     * Significa che ogni nodo deve avere fattore di bilanciamento -1, 0 o +1.
+     * In caso di sbilanciamento, deve eseguire le rotazioni necessarie.
+     * Se il bilanciamento è maggiore di 1 e il valore da aggiungere è minore del
+     * valore del figlio sinistro, si esegue una rotazione destra.
+     * Se il bilanciamento è minore di -1 e il valore da aggiungere è maggiore del
+     * valore del figlio destro, si esegue una rotazione sinistra.
+     * Se il bilanciamento è maggiore di 1 e il valore da aggiungere è maggiore del
+     * valore del figlio sinistro, si esegue una rotazione sinistra sul figlio sinistro
+     * seguita da una rotazione destra sul nodo.
+     * Se il bilanciamento è minore di -1 e il valore da aggiungere è minore del
+     * valore del figlio destro, si esegue una rotazione destra sul figlio destro
+     * seguita da una rotazione sinistra sul nodo.
      * @param value il valore da aggiungere
      * @return true se il valore è stato aggiunto, false se era già presente
      */
@@ -64,20 +79,24 @@ public class AVL {
     }
 
     /**
-     * Restituisce i nodi dell'albero usando la visita DFSs
-     * @return l'array dei valori dei nodi visitati in DFS
+     * Restituisce la lista dei valori dell'albero AVL in ordine crescente
+     * La visita deve essere fatta visitando prima il sottoalbero sinistro,
+     * poi la radice, poi il sottoalbero destro (visita in-order)
      */
-    public int[] DFS() {
+    public List<Integer> InOrderVisit() {
         //TODO: Implementare la visita DFS
         return null;
     }
 
     /**
-     * Restituisce i nodi dell'albero usando la vista BFS
-     * @return l'array dei valori dei nodi visitati in BFS
+     * Restituisce la lista dei valori dell'albero AVL in visita pre-order.
+     * QQuesto significa che per ogni nodo si visita prima la radice,
+     * poi il sottoalbero sinistro, poi il sottoalbero destro.
+      * @return la lista dei valori in visita pre-order
      */
-    public int[] BFS() {
-        //TODO: Implementare la visita BFS
+    public List<Integer> postOrder() {
+        //TODO: Implementare la visita post-order
         return null;
     }
+
 }
