@@ -10,40 +10,40 @@ package it.unicam.cs.asdl2526.tutorato.collections.sets.tree;
  */
 public class Heap {
 
-    private static final int INITIAL_CAPACITY = 16;
-
-    private static final int getParentIndex(int index) {
-        return (index - 1) / 2;
+    private static int getParentIndex(int index) {
+        return (index) / 2;
     }
 
-    private static final int getLeftChildIndex(int index) {
+    private static int getLeftChildIndex(int index) {
+        return 2 * index;
+    }
+
+    private static int getRightChildIndex(int index) {
         return 2 * index + 1;
     }
 
-    private static final int getRightChildIndex(int index) {
-        return 2 * index + 2;
-    }
-
+    private static final int MAX_DEFAULT_CAPACITY = 200;
     /**
      * L'array che rappresenta l'heap.
      */
     private int[] tree;
-
+    private int maxCapacity;
     //TODO: aggiungere altri campi dati se necessari
 
     /**
-     * Costruisce un heap vuoto con capacità iniziale di 16 elementi.
+     * Costruisce un heap vuoto con capacità massima di 200 elementi.
      */
     public Heap() {
-        this(INITIAL_CAPACITY);
+        this(MAX_DEFAULT_CAPACITY);
     }
 
     /**
-     * Costruisce un heap vuoto con la capacità specificata.
-     * @param size
+     * Costruisce un heap vuoto con la capacità massima specificata.
+     * @param maxCapacity
      */
-    public Heap(int size) {
-        this.tree = new int[size];
+    public Heap(int maxCapacity) {
+        this.tree = new int[maxCapacity];
+        this.maxCapacity = maxCapacity;
     }
 
 
@@ -54,9 +54,6 @@ public class Heap {
 
     /**
      * Aggiunge un valore all'heap.
-     * Per aggiungere un valore all'heap, lo si inserisce nella prima posizione
-     * libera dell'array che rappresenta l'heap, e poi si applica l'operazione di
-     * "heapify up" per ripristinare la proprietà di heap.
      * @param value il valore da aggiungere
      * @return true se l'elemento è stato aggiunto, false altrimenti, ad esempio se l'elemento è già presente
      */
@@ -113,6 +110,12 @@ public class Heap {
         int[] copy = new int[tree.length];
         System.arraycopy(tree, 0, copy, 0, tree.length);
         return copy;
+    }
+
+    private void swap(int i, int j) {
+        int temp = tree[i];
+        tree[i] = tree[j];
+        tree[j] = temp;
     }
 
 }
