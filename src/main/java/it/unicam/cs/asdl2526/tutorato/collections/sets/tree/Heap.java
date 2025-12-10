@@ -80,18 +80,6 @@ public class Heap {
         return -1;
     }
 
-    /**
-     * Rimuove un valore specifico dall'heap.
-     * Per rimuovere un valore specifico dall'heap, si cerca il valore nell'array,
-     * lo si sostituisce con l'ultimo elemento dell'heap, e poi si applicano le operazioni di
-     * "heapify up" per ripristinare la proprietà di heap.
-     * @param value il valore da rimuovere
-     * @return true se l'elemento è stato rimosso, false altrimenti
-     */
-    public boolean remove(int value) {
-        //TODO: implementare
-        return false;
-    }
 
     /**
      * Ripristina la proprietà di heap risalendo l'albero a partire dall'indice specificato.
