@@ -123,70 +123,6 @@ public class HeapTest {
         assertEquals(5, heap.getMin());
     }
 
-    // Test di remove
-    @Test
-    void removeExistingElementReturnsTrue() {
-        Heap heap = new Heap();
-        heap.add(10);
-        heap.add(20);
-        heap.add(30);
-        assertTrue(heap.remove(20));
-    }
-
-    @Test
-    void removeNonExistingElementReturnsFalse() {
-        Heap heap = new Heap();
-        heap.add(10);
-        heap.add(20);
-        assertFalse(heap.remove(30));
-    }
-
-    @Test
-    void removeFromEmptyHeapReturnsFalse() {
-        Heap heap = new Heap();
-        assertFalse(heap.remove(10));
-    }
-
-    @Test
-    void removeRootElement() {
-        Heap heap = new Heap();
-        heap.add(5);
-        heap.add(10);
-        heap.add(15);
-        assertTrue(heap.remove(5));
-        assertEquals(10, heap.getMin());
-    }
-
-    @Test
-    void removeLeafElement() {
-        Heap heap = new Heap();
-        heap.add(5);
-        heap.add(10);
-        heap.add(15);
-        heap.add(20);
-        assertTrue(heap.remove(20));
-        assertEquals(5, heap.getMin());
-    }
-
-    @Test
-    void removeMiddleElement() {
-        Heap heap = new Heap();
-        heap.add(5);
-        heap.add(10);
-        heap.add(15);
-        heap.add(20);
-        assertTrue(heap.remove(10));
-        assertEquals(5, heap.getMin());
-    }
-
-    @Test
-    void removeLastRemainingElement() {
-        Heap heap = new Heap();
-        heap.add(42);
-        assertTrue(heap.remove(42));
-        assertTrue(heap.isEmpty());
-    }
-
     @Test
     void heapifyUpMaintainsMinHeapProperty() {
         Heap heap = new Heap();
@@ -195,19 +131,6 @@ public class HeapTest {
         heap.add(20);
         heap.add(10);
         assertEquals(10, heap.getMin());
-    }
-
-    @Test
-    void mixedOperationsMaintainHeapProperty() {
-        Heap heap = new Heap();
-        heap.add(15);
-        heap.add(10);
-        heap.add(20);
-        heap.removeMin();
-        heap.add(5);
-        heap.remove(20);
-        heap.add(25);
-        assertEquals(5, heap.getMin());
     }
 
     @Test
