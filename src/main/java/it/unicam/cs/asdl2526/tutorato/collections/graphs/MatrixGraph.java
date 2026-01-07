@@ -1,9 +1,6 @@
 package it.unicam.cs.asdl2526.tutorato.collections.graphs;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Classe che implementa un grafo non orientato tramite matrice di adiacenza.
@@ -47,7 +44,7 @@ public class MatrixGraph<L> extends Graph<L> {
       * Insieme dei nodi e associazione di ogni nodo con il proprio indice nella
       * matrice di adiacenza
       */
-     protected Map<GraphNode<L>, Integer> nodesIndex;
+     protected List<L> nodesIndex;
 
      /*
       * Matrice di adiacenza, gli elementi sono null o oggetti della classe
@@ -62,7 +59,7 @@ public class MatrixGraph<L> extends Graph<L> {
       */
      public MatrixGraph() {
           this.matrix = new ArrayList<ArrayList<GraphEdge<L>>>();
-          this.nodesIndex = new HashMap<GraphNode<L>, Integer>();
+          this.nodesIndex = new ArrayList<>();
      }
 
      @Override
@@ -84,7 +81,6 @@ public class MatrixGraph<L> extends Graph<L> {
 
      @Override
      public boolean isDirected() {
-          // TODO implementare
           return false;
      }
 
