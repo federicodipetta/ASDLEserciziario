@@ -146,11 +146,13 @@ public class CircularLinkedList<E> implements List<E> {
 
         @Override
         public boolean hasNext() {
+            //TODO: implementare 
             return false;
         }
 
         @Override
         public E next() {
+            //TODO: implementare 
             return null;
         }
     }
