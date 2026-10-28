@@ -1,6 +1,5 @@
 package it.unicam.cs.asdl2526.tutorato.algorithms.sorting;
 
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -36,26 +35,26 @@ public class QuickSort implements Sorter {
     }
 
     @Override
-    public <T extends Comparable<T>> void sort(List<T> list) {
-        if (list == null || list.size() <= 1) {
+    public <T extends Comparable<T>> void sort(T[] array) {
+        if (array == null || array.length <= 1) {
             return;
         }
-        quickSortRecursive(list, 0, list.size() - 1);
+        quickSortRecursive(array, 0, array.length - 1);
     }
 
     private <T extends Comparable<T>> void quickSortRecursive(
-        List<T> list, int low, int high) {
+        T[] array, int low, int high) {
     while (low < high) {
-        int pivotIndex = selectPivot(list, low, high);
-        swap(list, pivotIndex, high);
+        int pivotIndex = selectPivot(array, low, high);
+        swap(array, pivotIndex, high);
 
-        int partitionIndex = partition(list, low, high);
+        int partitionIndex = partition(array, low, high);
 
         if (partitionIndex - low < high - partitionIndex) {
-            quickSortRecursive(list, low, partitionIndex - 1);
+            quickSortRecursive(array, low, partitionIndex - 1);
             low = partitionIndex + 1;
         } else {
-            quickSortRecursive(list, partitionIndex + 1, high);
+            quickSortRecursive(array, partitionIndex + 1, high);
             high = partitionIndex - 1;
         }
     }
@@ -64,7 +63,7 @@ public class QuickSort implements Sorter {
     /**
      * Seleziona l'indice del pivot in base alla modalità configurata.
      */
-    private <T extends Comparable<T>> int selectPivot(List<T> list, int low, int high) {
+    private <T extends Comparable<T>> int selectPivot(T[] array, int low, int high) {
         int pivotIndex = 0;
         int size = high - low + 1;
 
@@ -88,31 +87,31 @@ public class QuickSort implements Sorter {
     /**
      * Partiziona il sotto-array attorno al pivot.
      */
-    private <T extends Comparable<T>> int partition(List<T> list, int low, int high) {
+    private <T extends Comparable<T>> int partition(T[] array, int low, int high) {
         // Il pivot è ora garantito all'indice 'high' grazie a selectPivot
-        T pivot = list.get(high);
+        T pivot = array[high];
         int i = (low - 1); // Indice dell'elemento più piccolo
 
         for (int j = low; j < high; j++) {
             // Se l'elemento corrente è minore o uguale al pivot
-            if (list.get(j).compareTo(pivot) <= 0) {
+            if (array[j].compareTo(pivot) <= 0) {
                 i++;
-                swap(list, i, j);
+                swap(array, i, j);
             }
         }
 
         // Sposta il pivot nella sua posizione finale corretta
-        swap(list, i + 1, high);
+        swap(array, i + 1, high);
         return i + 1;
     }
 
     /**
      * Funzione helper per lo scambio di due elementi.
      */
-    private <T extends Comparable<T>> void swap(List<T> list, int i, int j) {
-        T temp = list.get(i);
-        list.set(i, list.get(j));
-        list.set(j, temp);
+    private <T extends Comparable<T>> void swap(T[] array, int i, int j) {
+        T temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
     }
 
     @Override 
