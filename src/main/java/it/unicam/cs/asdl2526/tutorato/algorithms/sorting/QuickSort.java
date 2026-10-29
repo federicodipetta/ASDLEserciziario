@@ -12,7 +12,6 @@ public class QuickSort implements Sorter {
 
     /**
      * Costruttore che accetta la strategia di selezione del pivot.
-     *
      * @param pivotMode La modalità con cui viene scelto il pivot (START, MIDDLE, END, RANDOM).
      */
     public QuickSort(PivotSelectionMode pivotMode) {
@@ -44,24 +43,66 @@ public class QuickSort implements Sorter {
     }
 
     private <T extends Comparable<T>> void quickSortRecursive(
-            T[] array, int low, int high) {
-        //TODO: implementare la ricorsione per il QuickSort
+        T[] array, int low, int high) {
+    while (low < high) {
+        int pivotIndex = selectPivot(array, low, high);
+        swap(array, pivotIndex, high);
+
+        int partitionIndex = partition(array, low, high);
+
+        if (partitionIndex - low < high - partitionIndex) {
+            quickSortRecursive(array, low, partitionIndex - 1);
+            low = partitionIndex + 1;
+        } else {
+            quickSortRecursive(array, partitionIndex + 1, high);
+            high = partitionIndex - 1;
+        }
+    }
     }
 
     /**
      * Seleziona l'indice del pivot in base alla modalità configurata.
      */
     private <T extends Comparable<T>> int selectPivot(T[] array, int low, int high) {
-        // TODO: implementare la selezione del pivot in base alla modalità configurata
-        return -1;
+        int pivotIndex = 0;
+        int size = high - low + 1;
+
+        switch (pivotMode) {
+            case END:
+                pivotIndex = high;
+                break;
+            case START:
+                pivotIndex = low;
+                break;
+            case MIDDLE:
+                pivotIndex = low + (size / 2);
+                break;
+            case RANDOM:
+                pivotIndex = low + random.nextInt(size);
+                break;
+        }
+        return pivotIndex;
     }
 
     /**
      * Partiziona il sotto-array attorno al pivot.
      */
     private <T extends Comparable<T>> int partition(T[] array, int low, int high) {
-        // TODO: implementare
-        return -1;
+        // Il pivot è ora garantito all'indice 'high' grazie a selectPivot
+        T pivot = array[high];
+        int i = (low - 1); // Indice dell'elemento più piccolo
+
+        for (int j = low; j < high; j++) {
+            // Se l'elemento corrente è minore o uguale al pivot
+            if (array[j].compareTo(pivot) <= 0) {
+                i++;
+                swap(array, i, j);
+            }
+        }
+
+        // Sposta il pivot nella sua posizione finale corretta
+        swap(array, i + 1, high);
+        return i + 1;
     }
 
     /**
@@ -73,10 +114,7 @@ public class QuickSort implements Sorter {
         array[j] = temp;
     }
 
-    /**
-     * Restituisce una rappresentazione stringa dell'oggetto.
-     */
-    @Override
+    @Override 
     public String toString() {
         return "QuickSort " + pivotMode;
     }

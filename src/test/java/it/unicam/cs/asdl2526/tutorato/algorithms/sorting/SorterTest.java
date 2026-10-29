@@ -34,7 +34,7 @@ public class SorterTest {
 
     @Test
     public void benchmarkSorters() {
-        int[] sizes = { 10, 100, 1000, 10000 };
+        int[] sizes = { 10, 100, 1000, 10000, 50000 };
         final int iterations = 10; // Numero di iterazioni configurabile
         for (int size : sizes) {
             Integer[] array = new Integer[size];

@@ -6,14 +6,12 @@ public interface Sorter {
 
     /**
      * Ordina l'array di elementi specificato in ordine crescente.
-     *
      * @param array l'array da ordinare
      */
     <T extends Comparable<T>> void sort(T[] array);
 
     /**
      * Ordina la lista di elementi specificata in ordine crescente.
-     *
      * @param list la lista da ordinare
      */
     @SuppressWarnings("unchecked")
