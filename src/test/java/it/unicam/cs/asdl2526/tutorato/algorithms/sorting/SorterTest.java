@@ -2,7 +2,6 @@ package it.unicam.cs.asdl2526.tutorato.algorithms.sorting;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
