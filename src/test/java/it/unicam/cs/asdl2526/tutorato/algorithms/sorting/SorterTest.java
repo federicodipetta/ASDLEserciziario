@@ -20,6 +20,9 @@ public class SorterTest {
         sorters.add(new QuickSort(PivotSelectionMode.MIDDLE));
         sorters.add(new QuickSort(PivotSelectionMode.END));
         sorters.add(new QuickSort(PivotSelectionMode.RANDOM, 42)); // Seed fisso per test riproducibili
+        sorters.add(new CountingSort());
+        sorters.add(new RadixSort());
+        //sorters.add(new RadixSortBase10());
     }
 
     @Test 
@@ -55,6 +58,30 @@ public class SorterTest {
                 long averageDuration = totalDuration / iterations;
                 System.out.println(sorter.toString() + " average took " + averageDuration / 1_000_000.0 + " ms");
             }
+        }
+    }
+
+    @Test
+    public void testIntegerOnlySorters() {
+        Integer[] countingValues = { 7, -1, 0, 3, -1, 7 };
+        new CountingSort().sort(countingValues);
+        assertArrayEquals(new Integer[] { -1, -1, 0, 3, 7, 7 }, countingValues);
+
+        Integer[] radixValues = { Integer.MAX_VALUE, -1, 0, Integer.MIN_VALUE, 42, -1 };
+        new RadixSort().sort(radixValues);
+        assertArrayEquals(
+                new Integer[] { Integer.MIN_VALUE, -1, -1, 0, 42, Integer.MAX_VALUE },
+                radixValues);
+
+        Integer[] radixBase10Values = { 170, -45, 75, 90, 802, 24, 2, 66 };
+        new RadixSortBase10().sort(radixBase10Values);
+        assertArrayEquals(
+                new Integer[] { -45, 2, 24, 66, 75, 90, 170, 802 },
+                radixBase10Values);
+
+        for (Sorter sorter : new Sorter[] {
+                new CountingSort(), new RadixSort(), new RadixSortBase10() }) {
+            assertThrows(ClassCastException.class, () -> sorter.sort(new String[] { "b", "a" }));
         }
     }
 
