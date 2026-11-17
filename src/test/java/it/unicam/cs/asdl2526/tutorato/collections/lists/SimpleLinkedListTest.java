@@ -2,6 +2,8 @@ package it.unicam.cs.asdl2526.tutorato.collections.lists;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SimpleLinkedListTest {
@@ -415,6 +417,185 @@ public class SimpleLinkedListTest {
         assertEquals(0, list.indexOf(40));
         assertEquals(1, list.indexOf(30));
         assertEquals(-1, list.indexOf(10));
+    }
+
+    @Test
+    public void removeAfterReverseRemovesFirstDuplicateInLogicalOrder() {
+        SimpleLinkedList<Integer> list = new SimpleLinkedList<>();
+        list.add(1); list.add(2); list.add(1); list.add(3);
+        list.reverse();                       // logico: 3, 1, 2, 1
+
+        assertTrue(list.remove(1));
+
+        assertContents(list, 3, 2, 1);
+        assertEquals(3, list.size());
+    }
+
+    @Test
+    public void removeMiddleDuplicateAfterReverse() {
+        SimpleLinkedList<Integer> list = new SimpleLinkedList<>();
+        list.add(1); list.add(2); list.add(3); list.add(2); list.add(4);
+        list.reverse();                       // logico: 4, 2, 3, 2, 1
+
+        assertTrue(list.remove(2));
+
+        assertContents(list, 4, 3, 2, 1);
+    }
+
+    @Test
+    public void searchAfterReverseReturnsFirstMatchInLogicalOrder() {
+        SimpleLinkedList<String> list = new SimpleLinkedList<>();
+        String a = new String("x");
+        String b = new String("x");
+        list.add(a);
+        list.add(b);
+        list.reverse();                       // logico: b, a
+
+        assertSame(b, list.search(new String("x")));
+        assertEquals(0, list.indexOf("x"));
+    }
+
+    @Test
+    public void addAfterReverseAppendsAtLogicalEnd() {
+        SimpleLinkedList<Integer> list = new SimpleLinkedList<>();
+        list.add(1); list.add(2); list.add(3);
+        list.reverse();
+
+        assertTrue(list.add(4));
+
+        assertContents(list, 3, 2, 1, 4);
+    }
+
+    @Test
+    public void addAfterReverseOnSingleElement() {
+        SimpleLinkedList<Integer> list = new SimpleLinkedList<>();
+        list.add(1);
+        list.reverse();
+
+        list.add(2);
+        list.add(3);
+
+        assertContents(list, 1, 2, 3);
+    }
+
+    @Test
+    public void reverseOnEmptyListThenAdd() {
+        SimpleLinkedList<Integer> list = new SimpleLinkedList<>();
+        list.reverse();
+
+        list.add(1); list.add(2); list.add(3);
+
+        assertContents(list, 1, 2, 3);
+    }
+
+    @Test
+    public void reverseTwiceThenAddKeepsOrder() {
+        SimpleLinkedList<Integer> list = new SimpleLinkedList<>();
+        list.add(1); list.add(2);
+        list.reverse();
+        list.add(3);                          // 2, 1, 3
+        list.reverse();                       // 3, 1, 2
+        list.add(4);
+
+        assertContents(list, 3, 1, 2, 4);
+    }
+
+    @Test
+    public void removeHeadAndTailAfterReverse() {
+        SimpleLinkedList<Integer> list = new SimpleLinkedList<>();
+        list.add(1); list.add(2); list.add(3); list.add(4);
+        list.reverse();                       // 4, 3, 2, 1
+
+        assertTrue(list.remove(4));           // testa logica
+        assertTrue(list.remove(1));           // coda logica
+
+        assertContents(list, 3, 2);
+    }
+
+    @Test
+    public void removeAllElementsAfterReverseThenReuse() {
+        SimpleLinkedList<Integer> list = new SimpleLinkedList<>();
+        list.add(1); list.add(2);
+        list.reverse();
+
+        assertTrue(list.remove(1));
+        assertTrue(list.remove(2));
+        assertTrue(list.isEmpty());
+
+        list.add(5);
+        list.add(6);
+
+        assertContents(list, 5, 6);
+    }
+
+    @Test
+    public void removeThenAddAfterReverse() {
+        SimpleLinkedList<Integer> list = new SimpleLinkedList<>();
+        list.add(1); list.add(2); list.add(3);
+        list.reverse();                       // 3, 2, 1
+        list.remove(1);                       // 3, 2
+        list.add(9);                          // 3, 2, 9
+
+        assertContents(list, 3, 2, 9);
+        list.reverse();
+        assertContents(list, 9, 2, 3);
+    }
+
+    @Test
+    public void pointersStayConsistentInBothDirections() {
+        SimpleLinkedList<Integer> list = new SimpleLinkedList<>();
+        for (int i = 1; i <= 6; i++) list.add(i);
+        list.remove(1);                       // testa
+        list.remove(6);                       // coda
+        list.remove(3);                       // mezzo
+
+        assertContents(list, 2, 4, 5);
+        list.reverse();
+        assertContents(list, 5, 4, 2);
+        list.reverse();
+        assertContents(list, 2, 4, 5);
+    }
+
+    @Test
+    public void clearAfterReverseResetsListCompletely() {
+        SimpleLinkedList<Integer> list = new SimpleLinkedList<>();
+        list.add(1); list.add(2);
+        list.reverse();
+
+        list.clear();
+        list.add(7); list.add(8);
+
+        assertContents(list, 7, 8);
+    }
+
+    @Test
+    public void getRejectsOutOfBoundsAfterReverse() {
+        SimpleLinkedList<Integer> list = new SimpleLinkedList<>();
+        list.add(1); list.add(2);
+        list.reverse();
+
+        assertThrows(IndexOutOfBoundsException.class, () -> list.get(2));
+        assertThrows(IndexOutOfBoundsException.class, () -> list.get(-1));
+    }
+
+    @Test
+    public void addIsConstantTime() {
+        SimpleLinkedList<Integer> list = new SimpleLinkedList<>();
+        assertTimeoutPreemptively(Duration.ofSeconds(2), () -> {
+            for (int i = 0; i < 200_000; i++) list.add(i);
+        });
+        assertEquals(200_000, list.size());
+    }
+
+    @Test
+    public void reverseIsConstantTime() {
+        SimpleLinkedList<Integer> list = new SimpleLinkedList<>();
+        for (int i = 0; i < 100_000; i++) list.add(i);
+
+        assertTimeoutPreemptively(Duration.ofSeconds(2), () -> {
+            for (int i = 0; i < 100_000; i++) list.reverse();   // numero pari
+        });
+        assertEquals(Integer.valueOf(0), list.get(0));
     }
 
     private static <T> void assertContents(
